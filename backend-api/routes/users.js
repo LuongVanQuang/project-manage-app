@@ -1,6 +1,31 @@
 var express = require('express');
 var router = express.Router();
 const knex = require('../knexModule');
+
+// Get users list
+router.get('/', (req, res) => {
+  knex.from('users').select()
+  .then((users) => {
+    if (!users) {
+      return res.status(404).send({
+        success: 'Fail',
+        message: 'Database have not any user!',
+      });
+    }
+    return res.status(200).send({
+      success: 'Success',
+      message: 'User found!',
+      users
+    });
+  }).catch((error) => {
+    res.status(404).send({
+      success: 'Fail',
+      message: 'Some error occurred. Please try again',
+      error: error
+    });
+  })
+});
+
 /* GET user by id. */
 router.get('/:id', (req, res) => {
   const reqParams = req.params;
@@ -15,7 +40,7 @@ router.get('/:id', (req, res) => {
     return res.status(200).send({
       success: 'Success',
       message: 'User found!',
-      data: user
+      user
     });
   }).catch((error) => {
     res.status(504).send({
@@ -28,7 +53,8 @@ router.get('/:id', (req, res) => {
 
 /* Create user */
 router.post('/create', function (req, res) {
-  const reqData = req.body
+  const reqData = req.body.user
+  console.log(reqData);
   knex('users').select().where({
     phone: reqData.phone
   }).then((records) => {
@@ -50,7 +76,7 @@ router.post('/create', function (req, res) {
       });
     }
   }).catch((error) => {
-    res.status(200).send({
+    res.status(404).send({
       success: 'Fail',
       message: 'Some error occurred. Please try again',
       error: error
@@ -60,7 +86,7 @@ router.post('/create', function (req, res) {
 
 router.post('/update/:id', (req, res) => {
   const reqParams = req.params 
-  const reqData = req.body 
+  const reqData = req.body.user
   knex.select('id')
   .from('users')
   .where({ id: reqParams.id })
