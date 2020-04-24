@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www --exec babel-node --presets babel-preset-env"
   },
   "dependencies": {
     "bookshelf": "^1.1.1",
@@ -17,5 +17,12 @@
     "knex": "^0.21.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.1.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.3"
   }
 }
