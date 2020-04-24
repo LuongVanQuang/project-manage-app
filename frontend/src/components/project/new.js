@@ -1,16 +1,15 @@
 import React from 'react';
 import axios from 'axios';
 
-import UserForm from './form';
+import ProjectForm from './form';
 import { Redirect } from 'react-router-dom';
 
-class NewUser extends React.Component {
+class NewProject extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
-            phone: '',
-            birthday: '',
+            description: '',
             fireRedirect: false
         };
     
@@ -22,29 +21,31 @@ class NewUser extends React.Component {
         this.setState({
             ...this.state,
             [target.name]: target.value
-    });
-    }
+        });
+    }   
+    
     handleSubmit(event) {
-        const user = this.state;
-        axios.post(`http://localhost:5000/api/users/create`, {user})
+        const project = {
+            name: this.state.name,
+            description: this.state.description
+        };
+        console.log(project);
+        axios.post(`http://localhost:5000/api/projects/create`, {project})
         .then(res => {
             this.setState({fireRedirect: true})
         });
         event.preventDefault();
-    }
+    };
     render() {
-        const from = this.props.location.state || '/users'
+        const from = this.props.location.state || '/projects'
         const { fireRedirect } = this.state;
         return (
             <div>
                 <div className='alert-notification'></div>
-                <h1>New User</h1>
-                <h2>{this.props.location.state}</h2>
-                <h2>{from}</h2>
-                <UserForm 
-                    username={this.state.name}
-                    phone={this.state.phone}
-                    birthday={this.state.birthday}
+                <h1>New Project</h1>
+                <ProjectForm 
+                    projectName={this.state.name}
+                    description={this.state.description}
                     onInputChange={this.handleChange}
                     onSubmit={this.handleSubmit}
                 />
@@ -52,7 +53,6 @@ class NewUser extends React.Component {
                     <Redirect to={from || '/'} />
                 )}
             </div>
-        )
-    }
-}
-export default NewUser
+    )}
+};
+export default NewProject

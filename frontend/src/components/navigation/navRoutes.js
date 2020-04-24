@@ -8,6 +8,9 @@ import NewUser from '../user/new';
 import UpdateUser from '../user/update';
 import Projects from '../project/index';
 import Project from '../project/show';
+import NewProject from '../project/new';
+import UpdateProject from '../project/update';
+import ProjectMembers from '../project/projectMembers';
 import NotFound from '../notFound/index';
 
 class NavRoute extends Component {
@@ -16,12 +19,15 @@ class NavRoute extends Component {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/users" component={Users} />
-                    <Route path='/users/new' component={NewUser}></Route>
-                    <Route path='/users/:id/update' component={UpdateUser}></Route>
-                    <Route path='/users/:id/projects' component={UserProjects}></Route>
-                    <Route path='/users/:id' component={User}></Route>
-                    <Route path='/projects/:id' component={Project}></Route>
+                    <Route path='/users/new' component={NewUser} />
+                    <Route path='/users/:id/update' component={UpdateUser} />
+                    <Route path='/users/:id/projects' component={UserProjects} />
+                    <Route path='/users/:id' component={User} />
                     <Route exact path="/projects" component={Projects} />
+                    <Route path='/projects/new' component={NewProject} />
+                    <Route path='/projects/:id/update' component={UpdateProject} />
+                    <Route path='/projects/:id/members' component={ProjectMembers} />
+                    <Route path='/projects/:id' component={Project} />
                     <Route component={NotFound} />
                 </Switch>
         )

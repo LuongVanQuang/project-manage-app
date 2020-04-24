@@ -1,6 +1,31 @@
 var express = require('express');
 var router = express.Router();
 const knex = require('../knexModule');
+
+// Get projects list
+router.get('/', (req, res) => {
+    knex.from('projects').select()
+    .then((projects) => {
+      if (!projects) {
+        return res.status(404).send({
+          success: 'Fail',
+          message: 'Database have not any user!',
+        });
+      }
+      return res.status(200).send({
+        success: 'Success',
+        message: 'User found!',
+        projects
+      });
+    }).catch((error) => {
+      res.status(404).send({
+        success: 'Fail',
+        message: 'Some error occurred. Please try again',
+        error: error
+      });
+    })
+  });
+
 /* GET user by id. */
 router.get('/:id', (req, res) => {
     const reqParams = req.params;
@@ -19,20 +44,20 @@ router.get('/:id', (req, res) => {
             return res.status(200).send({
                 success: 'Success',
                 message: 'Project found!',
-                data: project
+                project
             });
         }).catch((error) => {
             res.status(504).send({
                 success: 'Fail',
                 message: 'Some error occurred. Please try again',
-                error: error
+                error
             });
         })
 });
 
 /* Create user */
 router.post('/create', function (req, res) {
-    const reqData = req.body
+    const reqData = req.body.project
     knex('projects').insert({
         name: reqData.name,
         description: reqData.description,
@@ -53,7 +78,7 @@ router.post('/create', function (req, res) {
 
 router.post('/update/:id', (req, res) => {
     const reqParams = req.params
-    const reqData = req.body
+    const reqData = req.body.project
     knex.select('id')
         .from('projects')
         .where({
@@ -61,7 +86,7 @@ router.post('/update/:id', (req, res) => {
         })
         .then(([row]) => {
             if (!row) {
-                return res.status(501).send({
+                return res.status(404).send({
                     success: 'Fail',
                     message: 'Project not found!',
                 });
@@ -78,7 +103,7 @@ router.post('/update/:id', (req, res) => {
                 });
             })
         }).catch((error) => {
-            res.status(503).send({
+            res.status(404).send({
                 success: 'Fail',
                 message: 'Some error occurred. Please try again',
                 error: error
@@ -86,18 +111,21 @@ router.post('/update/:id', (req, res) => {
         });
 });
 
+// API Assign user to project as a member.
 router.post('/members', (req, res) => {
-    const reqData = req.body;
-    knex('project_members').insert({
-        user_id: reqData.user_id,
-        project_id: reqData.project_id,
-    }).then(() => {
+    const reqMemberIds = req.body.projectMembers.memberIds;
+    const project_id = req.body.projectMembers.projectId;
+    const fieldsInsert = reqMemberIds.map(id => 
+        ({ user_id: id, project_id: project_id })
+    ); 
+    console.log(fieldsInsert)
+    knex('project_members').insert(fieldsInsert).then(() => {
         res.status(200).send({
             status: 'Success',
             message: 'Add user successfully!',
         });
     }).catch((error) => {
-        res.status(200).send({
+        res.status(404).send({
             success: 'Fail',
             message: 'Some error occurred. Please try again',
             error: error
@@ -105,17 +133,18 @@ router.post('/members', (req, res) => {
     });
 });
 
+// API get all members of project.
 router.get('/:id/members', (req, res) => {
     const projectId = parseInt(req.params.id);
     knex('users')
     .select()
     .innerJoin('project_members', 'users.id', 'project_members.user_id')
     .where('project_members.project_id', projectId)
-    .then((raw) => {
+    .then((projects) => {
         res.status(200).send({
             status: 'Success',
             message: 'Successfully!',
-            data: raw,
+            projects,
         });
     }).catch((error) => {
         res.status(200).send({

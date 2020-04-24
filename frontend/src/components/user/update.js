@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-import UserForm from './_form';
+import UserForm from './form';
 
 class UpdateUser extends React.Component {
   constructor(props) {
