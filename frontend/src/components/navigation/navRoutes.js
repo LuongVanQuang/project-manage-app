@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Home from '../home/index';
 import Users from '../user/index';
 import User from '../user/show';
+import UserProjects from '../user/belongProjects';
 import NewUser from '../user/new';
 import UpdateUser from '../user/update';
 import Projects from '../project/index';
@@ -17,6 +18,7 @@ class NavRoute extends Component {
                     <Route exact path="/users" component={Users} />
                     <Route path='/users/new' component={NewUser}></Route>
                     <Route path='/users/:id/update' component={UpdateUser}></Route>
+                    <Route path='/users/:id/projects' component={UserProjects}></Route>
                     <Route path='/users/:id' component={User}></Route>
                     <Route path='/projects/:id' component={Project}></Route>
                     <Route exact path="/projects" component={Projects} />

@@ -2,7 +2,6 @@ import React from 'react'
 import {Table, Button} from 'react-bootstrap'
 import { Link} from 'react-router-dom';
 
-
 class UserTable extends React.Component {
   render() {
         return (
@@ -28,7 +27,7 @@ class UserTable extends React.Component {
                                 <Link to={'/users/'+ user.id + '/update'}>
                                      <Button variant="primary">Edit</Button>{' '}
                                 </Link>
-                                <Link to={'#'}>
+                                <Link to={'/users/'+ user.id + '/projects'}>
                                     <Button variant="info">Projects</Button>{' '}
                                 </Link>
                                     <Button variant="danger">Delete</Button>{' '}

@@ -122,17 +122,17 @@ router.get('/:id/projects', (req, res) => {
   .select()
   .innerJoin('project_members', 'projects.id', 'project_members.project_id')
   .where('project_members.user_id', userId)
-  .then((raw) => {
-    if (raw.length === 0) {
+  .then((projects) => {
+    if (projects.length === 0) {
       return res.status(404).send({
         status: 'Fail',
         message: 'Not projects!',
-    });
+      });
     }
       res.status(200).send({
           status: 'Success',
           message: 'Successfully!',
-          data: raw,
+          projects,
       });
   }).catch((error) => {
       res.status(404).send({
