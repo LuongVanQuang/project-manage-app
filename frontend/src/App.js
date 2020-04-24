@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import Navigation from './components/navigation/index';
+//import Home from './components/home/index';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -15,27 +18,14 @@ class App extends Component {
   }
 
   componentWillMount() {
-      this.callAPI();
+      //this.callAPI();
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {this.state.apiResponse}
-          </a>
-        </header>
-      </div>
-    );
+      <Router>
+          <Navigation />
+      </Router>
+    )
   }
 }
 export default App;
