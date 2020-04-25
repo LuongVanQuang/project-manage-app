@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Button, Modal, Form} from 'react-bootstrap'
+import config from 'react-global-configuration';
 import "bootstrap/dist/css/bootstrap.min.css";;
 
 class MyVerticallyCenteredModal extends React.Component {
@@ -74,11 +75,13 @@ class NewMember extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:5000/api/users/`)
+        axios.get(`${config.get('BACKEND_API')}/api/users/`)
         .then(res => {
-            const users = res.data.users;
+            const users = res.data.dataResponse;
             this.setState({ users: users });
-        })
+        }).catch((e) => {
+            alert(e.response.data.message)
+        });
     }
 
     changeModalState() {
@@ -89,10 +92,12 @@ class NewMember extends React.Component {
         const memberIds = this.state.selected;
         const projectId = this.props.project_id;
         const projectMembers = {memberIds: memberIds, projectId: projectId}
-        axios.post(`http://localhost:5000/api/projects/members`, {projectMembers})
-        .then(res => {
-            window.location.reload();
-        });
+        axios.post(`${config.get('BACKEND_API')}/api/projects/members`, {projectMembers})
+            .then(res => {
+                window.location.reload();
+            }).catch((e) => {
+                alert(e.response.data.message)
+            });
         this.changeModalState();
         event.preventDefault();
     }

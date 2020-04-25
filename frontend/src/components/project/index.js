@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import ProjectTable from './partials/projectTable';
+import config from 'react-global-configuration';
+
 
 class Projects extends React.Component {
   constructor(props) {
@@ -13,11 +15,13 @@ class Projects extends React.Component {
   }
   
   componentDidMount() {
-    axios.get(`http://localhost:5000/api/projects/`)
+    axios.get(`${config.get('BACKEND_API')}/api/projects/`)
       .then(res => {
-        const resProjects = res.data.projects;
+        const resProjects = res.data.dataResponse;
         this.setState({ projects: resProjects });
-      })
+      }).catch((e) => {
+        alert(e.response.data.message)
+     });
   }
 
   render() {

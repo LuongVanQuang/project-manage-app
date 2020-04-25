@@ -28,6 +28,8 @@ class ProjectForm extends React.Component {
                     <Form.Label>Description</Form.Label>
                     <Form.Control 
                         type="text" 
+                        as="textarea" 
+                        rows="3" 
                         placeholder="Enter description"
                         name='description' 
                         value={this.props.description || ''} 

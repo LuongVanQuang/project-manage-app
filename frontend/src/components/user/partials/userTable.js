@@ -4,7 +4,6 @@ import { Link} from 'react-router-dom';
 
 class UserTable extends React.Component {
   render() {
-       
         return (
             <Table striped bordered hover>
                 <thead>
@@ -30,7 +29,7 @@ class UserTable extends React.Component {
                                 <td>{birthday}</td>
                                 <td colSpan='2'>
                                 <Link to={'/users/'+ user.id + '/update'}>
-                                     <Button variant="primary">Edit</Button>{' '}
+                                    <Button variant="primary">Edit</Button>{' '}
                                 </Link>
                                 <Link to={'/users/'+ user.id + '?userName=' + user.name}>
                                     <Button variant="info">Details</Button>{' '}

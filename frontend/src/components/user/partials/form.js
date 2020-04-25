@@ -1,10 +1,9 @@
 
 import React from 'react';
 import {Form, Button} from 'react-bootstrap';
-//import DateTimePicker from 'react-datetime-picker'
 import DatePicker from "react-datepicker";
- 
 import "react-datepicker/dist/react-datepicker.css";
+
 class UserForm extends React.Component {
     constructor(props) {
         super(props);

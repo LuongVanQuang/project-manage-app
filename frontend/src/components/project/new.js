@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-
-import ProjectForm from './partials/form';
 import { Redirect } from 'react-router-dom';
+import config from 'react-global-configuration';
+import ProjectForm from './partials/form';
 
 class NewProject extends React.Component {
     constructor(props) {
@@ -29,10 +29,12 @@ class NewProject extends React.Component {
             name: this.state.name,
             description: this.state.description
         };
-        axios.post(`http://localhost:5000/api/projects`, {project})
+        axios.post(`${config.get('BACKEND_API')}/api/projects`, {project})
         .then(res => {
             this.setState({fireRedirect: true})
-        });
+        }).catch((e) => {
+            alert(e.response.data.message)
+         });
         event.preventDefault();
     };
     render() {

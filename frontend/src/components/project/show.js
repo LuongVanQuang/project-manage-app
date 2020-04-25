@@ -2,10 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 import NewMemberModal from './partials/newMemberModal';
+import config from 'react-global-configuration';
 import {ListGroup} from 'react-bootstrap';
-import {Notification} from '../notification/index';
 const queryString = require('query-string')
-
 
 const ListGroupMembers = (props) => {
     return (
@@ -31,15 +30,14 @@ class ProjectDetails extends React.Component {
 
     componentDidMount() {
         const projectId = this.props.match.params.id
-        axios.get(`http://localhost:5000/api/projects/${projectId}/members`)
+        axios.get(`${config.get('BACKEND_API')}/api/projects/${projectId}/members`)
             .then(res => {
-                const resMembers = res.data.members;
+                const resMembers = res.data.dataResponse;
                 this.setState({
                     members: resMembers
                 })
-            })
-            .catch((e) => {
-                console.log(e.response)
+            }).catch((e) => {
+                alert(e.response.data.message)
             });
         }
 

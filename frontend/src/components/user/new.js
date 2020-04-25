@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import config from 'react-global-configuration';
 import UserForm from './partials/form';
 import { Redirect } from 'react-router-dom';
 
@@ -38,12 +38,14 @@ class NewUser extends React.Component {
     handleSubmit(event) {
         const user = this.state;
         if (this.onCheckPhoneNumber(user.phone)) {
-            axios.post(`http://localhost:5000/api/users`, {user})
+            axios.post(`${config.get('BACKEND_API')}/api/users`, {user})
             .then(res => {
                 this.setState({fireRedirect: true})
-            });
+            }).catch(error => {
+                alert(error.response.data.message)
+            } );
         } else {
-            console.log("Phone number is incorrect");
+            alert("Phone number is incorrect");
         }
         event.preventDefault();
     }

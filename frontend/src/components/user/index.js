@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import UserTable from './partials/userTable';
 import { Container } from 'react-bootstrap';
+import config from 'react-global-configuration';
 
 class Users extends React.Component {
   constructor(props) {
@@ -14,10 +15,12 @@ class Users extends React.Component {
   }
   
   componentDidMount() {
-    axios.get(`http://localhost:5000/api/users/`)
+    axios.get(`${config.get('BACKEND_API')}/api/users/`)
       .then(res => {
-        const persons = res.data.users;
-        this.setState({ users: persons });
+        const users = res.data.dataResponse;
+        this.setState({ users: users });
+      }).catch(error => {
+        console.log(error.repsonse.data.message)
       })
   }
 

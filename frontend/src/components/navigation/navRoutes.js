@@ -14,18 +14,18 @@ import NotFound from '../notFound/index';
 class NavRoute extends Component {
     render() {
         return (
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/users" component={Users} />
-                    <Route path='/users/new' component={NewUser} />
-                    <Route path='/users/:id/update' component={UpdateUser} />
-                    <Route path='/users/:id' component={User} />
-                    <Route exact path="/projects" component={Projects} />
-                    <Route path='/projects/new' component={NewProject} />
-                    <Route path='/projects/:id/update' component={UpdateProject} />
-                    <Route path='/projects/:id' component={ProjectDetails} />
-                    <Route component={NotFound} />
-                </Switch>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/users" component={Users} />
+                <Route path='/users/new' component={NewUser} />
+                <Route path='/users/:id/update' component={UpdateUser} />
+                <Route path='/users/:id' component={User} />
+                <Route exact path="/projects" component={Projects} />
+                <Route path='/projects/new' component={NewProject} />
+                <Route path='/projects/:id/update' component={UpdateProject} />
+                <Route path='/projects/:id' component={ProjectDetails} />
+                <Route component={NotFound} />
+            </Switch>
         )
     }
 }

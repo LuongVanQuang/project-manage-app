@@ -2,6 +2,7 @@ import React from 'react';
 //import { Link} from 'react-router-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import config from 'react-global-configuration';
 
 import UserForm from './partials/form';
 
@@ -30,12 +31,14 @@ class UpdateUser extends React.Component {
   handleSubmit(event) {
     const user = this.state.user;
     if (this.onCheckPhoneNumber(user.phone)) {
-      axios.put(`http://localhost:5000/api/users/${user.id}` , {user})
+      axios.put(`${config.get('BACKEND_API')}/api/users/${user.id}` , {user})
         .then(res => {
             this.setState({fireRedirect: true})
-      });
+      }).catch(error => {
+        alert(error.response.data.message)
+    } );
     } else {
-      console.log("Phone number is incorrect");
+      alert("Phone number is incorrect");
     }
     event.preventDefault();
   }
@@ -51,11 +54,13 @@ class UpdateUser extends React.Component {
 
   componentDidMount() {
     const userId = this.props.match.params.id
-    axios.get(`http://localhost:5000/api/users/` + userId)
-    .then(res => {
-      const user = res.data.user;
-      this.setState({user: user });
-    })
+    axios.get(`${config.get('BACKEND_API')}/api/users/` + userId)
+         .then(res => {
+            const user = res.data.dataResponse;
+            this.setState({user: user });
+         }).catch(error => {
+          alert(error.response.data.message)
+      } );
   }
 
   render() {

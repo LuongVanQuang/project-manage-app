@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Container, ListGroup } from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom';
+import config from 'react-global-configuration';
 
 const queryString = require('query-string')
 
@@ -30,16 +31,15 @@ class UserDetails extends React.Component {
 
     componentDidMount() {
         const userId = this.props.match.params.id
-        axios.get(`http://localhost:5000/api/users/${userId}/projects`)
+        axios.get(`${config.get('BACKEND_API')}/api/users/${userId}/projects`)
             .then(res => {
-                const resProjects = res.data.projects;
+                const resProjects = res.data.dataResponse;
                 this.setState({
                     projects: resProjects
                 })
-            })
-            .catch((e) => {
-                console.log(e.response)
-            });
+            }).catch((e) => {
+              alert(e.response.data.message)
+           });
         }
 
     render() {

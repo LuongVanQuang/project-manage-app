@@ -3,8 +3,6 @@ import { Route } from 'react-router';
 import Project from '../project/show';
 import User from '../user/show';
 
-
-
 class HomeRouter extends Component {
     render(){
         return (

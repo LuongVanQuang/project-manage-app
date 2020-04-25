@@ -2,31 +2,44 @@ var express = require('express');
 var router = express.Router();
 const knex = require('../knexModule');
 
+const makeResponse = (res, params, dataResponse = {}) => {
+    return res.status(params.statusCode).send({
+        success: params.success,
+        message: params.message,
+        dataResponse
+    })
+}
 // Get projects list
 router.get('/', (req, res) => {
-    knex.from('projects').select()
-    .then((projects) => {
-      if (!projects) {
-        return res.status(404).send({
-          success: 'Fail',
-          message: 'Database have not any user!',
-        });
-      }
-      return res.status(200).send({
-        success: 'Success',
-        message: 'User found!',
-        projects
-      });
-    }).catch((error) => {
-      res.status(404).send({
-        success: 'Fail',
-        message: 'Some error occurred. Please try again',
-        error: error
-      });
-    })
-  });
+    knex.from('projects')
+        .select()
+        .then((projects) => {
+            let params = {};
+            if (!projects) {
+                params = {
+                    statusCode: 404,
+                    success: 'Fail',
+                    message: "Database have not any project!"
+                }
+            } else {
+                params = {
+                    statusCode: 200,
+                    success: 'Success',
+                    message: "List projects!"
+                }
+            }
+            makeResponse(res, params, projects)
+        }).catch((error) => {
+            let params = {
+                statusCode: 404,
+                success: 'Fail',
+                message: "Some error occurred. Please try again"
+            }
+            makeResponse(res, params, error)
+        })
+});
 
-/* GET user by id. */
+/* GET project by id. */
 router.get('/:id', (req, res) => {
     const reqParams = req.params;
     knex('projects')
@@ -35,101 +48,114 @@ router.get('/:id', (req, res) => {
         })
         .select()
         .then(([project]) => {
+            let params = {};
             if (!project) {
-                return res.status(501).send({
+                params = {
+                    statusCode: 404,
                     success: 'Fail',
-                    message: 'Project not found!',
-                });
+                    message: "Project not found!"
+                }
+            } else {
+                params = {
+                    statusCode: 200,
+                    success: 'Success',
+                    message: "Project found!"
+                }
             }
-            return res.status(200).send({
-                success: 'Success',
-                message: 'Project found!',
-                project
-            });
+            makeResponse(res, params, project)
         }).catch((error) => {
-            res.status(504).send({
+            let params = {
+                statusCode: 404,
                 success: 'Fail',
-                message: 'Some error occurred. Please try again',
-                error
-            });
+                message: "Some error occurred. Please try again"
+            }
+            makeResponse(res, params, error)
         })
 });
 
-/* Create user */
+/* Create project */
 router.post('/', function (req, res) {
     const reqData = req.body.project
     knex('projects').insert({
         name: reqData.name,
         description: reqData.description,
     }).then((project) => {
-        res.status(200).send({
-            status: 'Success',
-            message: 'Successfully registered!',
-            data: project
-        });
+        let params = {
+            statusCode: 200,
+            success: 'Success',
+            message: "Project create successful!"
+        }
+        makeResponse(res, params, project)
     }).catch((error) => {
-        res.status(200).send({
+        let params = {
+            statusCode: 404,
             success: 'Fail',
-            message: 'Some error occurred. Please try again',
-            error: error
-        });
+            message: "Some error occurred. Please try again"
+        }
+        makeResponse(res, params, error)
     });
 });
 
 router.put('/:id', (req, res) => {
     const reqParams = req.params
     const reqData = req.body.project
-    knex.select('id')
-        .from('projects')
+    knex('projects').update({
+            name: reqData.name,
+            description: reqData.description,
+        })
         .where({
             id: reqParams.id
         })
-        .then(([row]) => {
-            if (!row) {
-                return res.status(404).send({
+        .then((project) => {
+            let params = {};
+            if (!project) {
+                params = {
+                    statusCode: 404,
                     success: 'Fail',
-                    message: 'Project not found!',
-                });
+                    message: "Update fail!"
+                }
+            } else {
+                params = {
+                    statusCode: 200,
+                    success: 'Success',
+                    message: "Project updated successful!"
+                }
             }
-            knex('projects').update({
-                name: reqData.name,
-                description: reqData.description,
-            }).where({
-                id: row.id
-            }).then(() => {
-                return res.status(200).send({
-                    status: 'Success',
-                    message: 'Successfully Updated!',
-                });
-            })
+            makeResponse(res, params);
         }).catch((error) => {
-            res.status(404).send({
+            let params = {
+                statusCode: 404,
                 success: 'Fail',
-                message: 'Some error occurred. Please try again',
-                error: error
-            });
+                message: "Some error occurred. Please try again"
+            }
+            makeResponse(res, params, error);
         });
 });
 
-// API Assign user to project as a member.
+// API Assign member to project.
 router.post('/members', (req, res) => {
     const reqMemberIds = req.body.projectMembers.memberIds;
     const project_id = req.body.projectMembers.projectId;
-    const fieldsInsert = reqMemberIds.map(id => 
-        ({ user_id: id, project_id: project_id })
-    ); 
-    console.log(fieldsInsert)
+    const fieldsInsert = reqMemberIds.map(id =>
+        ({
+            user_id: id,
+            project_id: project_id
+        })
+    );
     knex('project_members').insert(fieldsInsert).then(() => {
-        res.status(200).send({
-            status: 'Success',
-            message: 'Add user successfully!',
-        });
+        let params = {
+            statusCode: 200,
+            success: 'Success',
+            message: "Add user successful!"
+        }
+        makeResponse(res, params);
     }).catch((error) => {
-        res.status(404).send({
+        let params = {
+            statusCode: 404,
             success: 'Fail',
-            message: 'Some error occurred. Please try again',
-            error: error
-        });
+            message: "Some error occurred. Please try again"
+        }
+        makeResponse(res, params, error);
     });
 });
 
@@ -137,22 +163,24 @@ router.post('/members', (req, res) => {
 router.get('/:id/members', (req, res) => {
     const projectId = parseInt(req.params.id);
     knex('users')
-    .select()
-    .innerJoin('project_members', 'users.id', 'project_members.user_id')
-    .where('project_members.project_id', projectId)
-    .then((members) => {
-        res.status(200).send({
-            status: 'Success',
-            message: 'Successfully!',
-            members,
+        .select()
+        .innerJoin('project_members', 'users.id', 'project_members.user_id')
+        .where('project_members.project_id', projectId)
+        .then((members) => {
+            let params = {
+                statusCode: 200,
+                success: 'Success',
+                message: "Get all members successful!"
+            }
+            makeResponse(res, params, members);
+        }).catch((error) => {
+            let params = {
+                statusCode: 404,
+                success: 'Fail',
+                message: "Some error occurred. Please try again"
+            }
+            makeResponse(res, params, error);
         });
-    }).catch((error) => {
-        res.status(200).send({
-            success: 'Fail',
-            message: 'Some error occurred. Please try again',
-            error: error
-        });
-    });
 });
 
 module.exports = router;
