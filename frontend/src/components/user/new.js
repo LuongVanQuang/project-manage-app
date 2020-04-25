@@ -26,7 +26,7 @@ class NewUser extends React.Component {
     }
     handleSubmit(event) {
         const user = this.state;
-        axios.post(`http://localhost:5000/api/users/create`, {user})
+        axios.post(`http://localhost:5000/api/users`, {user})
         .then(res => {
             this.setState({fireRedirect: true})
         });

@@ -12,15 +12,9 @@ class Navigation extends React.Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link>
-                                <NavLink exact activeClassName="active" to='/'>Home</NavLink>
-                            </Nav.Link>
-                            <Nav.Link>
-                                <NavLink activeClassName="active" to='/users'>Users</NavLink>
-                            </Nav.Link>
-                            <Nav.Link>
-                                <NavLink activeClassName="active"to='/projects'>Project</NavLink>
-                            </Nav.Link>
+                            <NavLink exact activeClassName="active" to='/'>Home</NavLink>
+                            <NavLink activeClassName="active" to='/users'>Users</NavLink>
+                            <NavLink activeClassName="active"to='/projects'>Project</NavLink>
                         </Nav>
                     </Navbar.Collapse> 
                 </Navbar>

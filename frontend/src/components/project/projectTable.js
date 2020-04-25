@@ -28,7 +28,6 @@ class ProjectTable extends React.Component {
                                         <Link to={'/projects/'+ project.id + '/members'}>
                                             <Button variant="info">Members</Button>{' '}
                                         </Link>
-                                            <Button variant="danger">Delete</Button>{' '}
                                     </td>
                                 </tr>
                             )

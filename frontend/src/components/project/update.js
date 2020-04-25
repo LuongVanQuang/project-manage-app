@@ -25,44 +25,45 @@ class UpdateProject extends React.Component {
         })
         )
     }
-  handleSubmit(event) {
-    const project = this.state.project;
-    axios.post(`http://localhost:5000/api/projects/update/${project.id}` , {project})
-      .then(res => {
-          this.setState({fireRedirect: true})
-    });
-    event.preventDefault();
 
-  }
-  componentDidMount() {
-    const projectId = this.props.match.params.id
-    axios.get(`http://localhost:5000/api/projects/` + projectId)
-    .then(res => {
-      const resProject = res.data.project;
-      this.setState({project: resProject });
-    })
-  }
-  render() {
-    const from = this.props.location.state || '/projects'
-    const { fireRedirect } = this.state;
-    return (
-        <div>
-            <div className='alert-notification'></div>
+    handleSubmit(event) {
+        const project = this.state.project;
+        axios.put(`http://localhost:5000/api/projects/${project.id}` , {project})
+             .then(res => {
+                    this.setState({fireRedirect: true})
+        });
+        event.preventDefault();
+
+    }
+    componentDidMount() {
+        const projectId = this.props.match.params.id
+        axios.get(`http://localhost:5000/api/projects/` + projectId)
+             .then(res => {
+                    const resProject = res.data.project;
+                    this.setState({project: resProject });
+        })
+    }
+    render() {
+        const from = this.props.location.state || '/projects'
+        const { fireRedirect } = this.state;
+        return (
             <div>
-            <h1>Edit {this.state.project.name}</h1>
-                <ProjectForm 
-                    projectName={this.state.project.name}
-                    description={this.state.project.description}
-                    onInputChange={this.handleChange}
-                    onSubmit={this.handleSubmit}
-                />
-                { 
-                    fireRedirect && (
-                    <Redirect to={from || '/'} />
-                )}
+                <div className='alert-notification'></div>
+                <div>
+                    <h1>Edit {this.state.project.name}</h1>
+                    <ProjectForm 
+                        projectName={this.state.project.name}
+                        description={this.state.project.description}
+                        onInputChange={this.handleChange}
+                        onSubmit={this.handleSubmit}
+                    />
+                    { 
+                        fireRedirect && (
+                        <Redirect to={from || '/'} />
+                    )}
+                </div>
             </div>
-        </div>
-    )
-  }
+        )
+    }
 }
 export default UpdateProject

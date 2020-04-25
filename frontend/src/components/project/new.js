@@ -29,8 +29,7 @@ class NewProject extends React.Component {
             name: this.state.name,
             description: this.state.description
         };
-        console.log(project);
-        axios.post(`http://localhost:5000/api/projects/create`, {project})
+        axios.post(`http://localhost:5000/api/projects`, {project})
         .then(res => {
             this.setState({fireRedirect: true})
         });

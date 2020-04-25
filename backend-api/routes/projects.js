@@ -56,7 +56,7 @@ router.get('/:id', (req, res) => {
 });
 
 /* Create user */
-router.post('/create', function (req, res) {
+router.post('/', function (req, res) {
     const reqData = req.body.project
     knex('projects').insert({
         name: reqData.name,
@@ -76,7 +76,7 @@ router.post('/create', function (req, res) {
     });
 });
 
-router.post('/update/:id', (req, res) => {
+router.put('/:id', (req, res) => {
     const reqParams = req.params
     const reqData = req.body.project
     knex.select('id')

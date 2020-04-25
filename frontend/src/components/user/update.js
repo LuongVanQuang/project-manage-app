@@ -28,7 +28,7 @@ class UpdateUser extends React.Component {
 }
   handleSubmit(event) {
     const user = this.state.user;
-    axios.post(`http://localhost:5000/api/users/update/${user.id}` , {user})
+    axios.put(`http://localhost:5000/api/users/${user.id}` , {user})
       .then(res => {
           this.setState({fireRedirect: true})
     });

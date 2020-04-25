@@ -30,7 +30,6 @@ class UserTable extends React.Component {
                                 <Link to={'/users/'+ user.id + '/projects'}>
                                     <Button variant="info">Projects</Button>{' '}
                                 </Link>
-                                    <Button variant="danger">Delete</Button>{' '}
                                 </td>
                             </tr>
                         )
