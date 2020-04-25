@@ -4,6 +4,10 @@ import './App.css';
 import Navigation from './components/navigation/index';
 //import Home from './components/home/index';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
+
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +26,7 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
+      <Router history={history}>
           <Navigation />
       </Router>
     )

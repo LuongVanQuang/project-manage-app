@@ -27,10 +27,8 @@ class UpdateProject extends React.Component {
     }
   handleSubmit(event) {
     const project = this.state.project;
-    console.log('asdmasd')
     axios.post(`http://localhost:5000/api/projects/update/${project.id}` , {project})
       .then(res => {
-          console.log(res)
           this.setState({fireRedirect: true})
     });
     event.preventDefault();

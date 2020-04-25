@@ -1,5 +1,6 @@
 
-import React from 'react'
+import React from 'react';
+import {Form, Button} from 'react-bootstrap';
 
 class UserForm extends React.Component {
     constructor(props) {
@@ -14,21 +15,38 @@ class UserForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.props.onSubmit}>
-                <label>
-                    Name:
-                    <input type="text" name='name' value={this.props.username || ''} onChange={this.handleInputChange} />
-                </label>
-                <label>
-                    Phone:
-                    <input type="text" name='phone'  value={this.props.phone || ''} onChange={this.handleInputChange} />
-                </label>
-                <label>
-                    Birthday:
-                    <input type="text" name='birthday'  value={this.props.birthday || ''} onChange={this.handleInputChange} />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+            <Form onSubmit={this.props.onSubmit}>
+                <Form.Group controlId="formBasicName">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        placeholder="Enter name"
+                        name='name' 
+                        value={this.props.username || ''} 
+                        onChange={this.handleInputChange} />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPhone">
+                    <Form.Label>Phone</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        placeholder="Enter phone"
+                        name='phone' 
+                        value={this.props.phone || ''} 
+                        onChange={this.handleInputChange} />
+                </Form.Group>
+                <Form.Group controlId="formBasicPhone">
+                    <Form.Label>Birthday</Form.Label>
+                    <Form.Control 
+                        type="text" 
+                        name='birthday' 
+                        value={this.props.birthday || ''} 
+                        onChange={this.handleInputChange} />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Submit
+                </Button>
+            </Form>
         )};
 };
 export default UserForm;

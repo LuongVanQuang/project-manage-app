@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import UserTable from './userTable';
+import { Container } from 'react-bootstrap';
 
 class Users extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Users extends React.Component {
 
   render() {
     return (
-        <div>
+        <Container>
             <h1>Users</h1>
             <div className='list-user'>
               <UserTable 
@@ -34,7 +35,7 @@ class Users extends React.Component {
                     <Button variant="success">New User</Button>{' '}
                 </Link>
             </ul>
-        </div>
+        </Container>
     )
   }
 }

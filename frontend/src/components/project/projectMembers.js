@@ -16,7 +16,6 @@ class ProjectMember extends React.Component {
         axios.get(`http://localhost:5000/api/projects/${projectId}/members`)
             .then(res => {
                 const resProjects = res.data.projects;
-                console.log(resProjects)
                 this.setState({
                     members: resProjects
                 })
@@ -32,7 +31,7 @@ class ProjectMember extends React.Component {
         return (
             <div>
                 <div className='alert-notification'></div>
-                <h1>Project assigned</h1>
+                <h1>User assignment</h1>
                 <ul>
                 {
                     this.state.members.map((user) => {

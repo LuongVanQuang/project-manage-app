@@ -25,7 +25,7 @@ class MyVerticallyCenteredModal extends React.Component {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Add new member to project
+                        Assign new user
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -106,7 +106,7 @@ class NewMember extends React.Component {
         return (
             <>
             <Button variant="primary" onClick={this.changeModalState}>
-                Add Member
+                Assign new user
             </Button>
     
             <MyVerticallyCenteredModal
