@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import UserForm from './form';
+import UserForm from './partials/form';
 import { Redirect } from 'react-router-dom';
 
 class NewUser extends React.Component {

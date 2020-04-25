@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import ProjectTable from './projectTable';
+import ProjectTable from './partials/projectTable';
 
 class Projects extends React.Component {
   constructor(props) {

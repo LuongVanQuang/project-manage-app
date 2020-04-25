@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-import UserTable from './userTable';
+import UserTable from './partials/userTable';
 import { Container } from 'react-bootstrap';
 
 class Users extends React.Component {

@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-import ProjectForm from './form';
+import ProjectForm from './partials/form';
 
 class UpdateProject extends React.Component {
     constructor(props) {

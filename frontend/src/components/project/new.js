@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import ProjectForm from './form';
+import ProjectForm from './partials/form';
 import { Redirect } from 'react-router-dom';
 
 class NewProject extends React.Component {

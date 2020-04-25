@@ -140,11 +140,11 @@ router.get('/:id/members', (req, res) => {
     .select()
     .innerJoin('project_members', 'users.id', 'project_members.user_id')
     .where('project_members.project_id', projectId)
-    .then((projects) => {
+    .then((members) => {
         res.status(200).send({
             status: 'Success',
             message: 'Successfully!',
-            projects,
+            members,
         });
     }).catch((error) => {
         res.status(200).send({
