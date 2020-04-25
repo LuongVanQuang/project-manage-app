@@ -14,6 +14,7 @@ class UpdateUser extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onCheckPhoneNumber = this.onCheckPhoneNumber.bind(this)
   }
 
   handleChange(target) {
@@ -23,18 +24,31 @@ class UpdateUser extends React.Component {
           ...prevState.user,
           [target.name]: target.value
       }
-  })
-  )
-}
+    }))
+  }
+
   handleSubmit(event) {
     const user = this.state.user;
-    axios.put(`http://localhost:5000/api/users/${user.id}` , {user})
-      .then(res => {
-          this.setState({fireRedirect: true})
-    });
+    if (this.onCheckPhoneNumber(user.phone)) {
+      axios.put(`http://localhost:5000/api/users/${user.id}` , {user})
+        .then(res => {
+            this.setState({fireRedirect: true})
+      });
+    } else {
+      console.log("Phone number is incorrect");
+    }
     event.preventDefault();
-
   }
+
+  onCheckPhoneNumber(phoneNumber) {
+    let regex = /\w/;
+    // Phone can't contains string or length !== 10
+    if (!regex.test(phoneNumber) || phoneNumber.length !== 10) {
+        return false;
+    }
+    return true;
+  }
+
   componentDidMount() {
     const userId = this.props.match.params.id
     axios.get(`http://localhost:5000/api/users/` + userId)
@@ -43,9 +57,14 @@ class UpdateUser extends React.Component {
       this.setState({user: user });
     })
   }
+
   render() {
     const from = this.props.location.state || '/users'
     const { fireRedirect } = this.state;
+    let birthday = this.state.user.birthday;
+    if (birthday !== undefined) {
+      birthday = new Date(birthday);
+    }
     return (
         <div>
             <div className='alert-notification'></div>
@@ -54,7 +73,7 @@ class UpdateUser extends React.Component {
               <UserForm 
                   username={this.state.user.name}
                   phone={this.state.user.phone}
-                  birthday={this.state.user.birthday}
+                  birthday={birthday}
                   onInputChange={this.handleChange}
                   onSubmit={this.handleSubmit}
               />

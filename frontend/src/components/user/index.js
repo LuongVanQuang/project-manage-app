@@ -24,7 +24,7 @@ class Users extends React.Component {
   render() {
     return (
         <Container>
-            <h1>Users</h1>
+            <h1>User List</h1>
             <div className='list-user'>
               <UserTable 
                 users={this.state.users}

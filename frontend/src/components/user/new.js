@@ -16,22 +16,38 @@ class NewUser extends React.Component {
     
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onCheckPhoneNumber = this.onCheckPhoneNumber.bind(this)
     }
     
     handleChange(target) {
         this.setState({
             ...this.state,
             [target.name]: target.value
-    });
+        });
     }
+
+    onCheckPhoneNumber(phoneNumber) {
+        let regex = /\w/;
+        // Phone can't contains string or length !== 10
+        if (!regex.test(phoneNumber) || phoneNumber.length !== 10) {
+            return false;
+        }
+        return true;
+    }
+
     handleSubmit(event) {
         const user = this.state;
-        axios.post(`http://localhost:5000/api/users`, {user})
-        .then(res => {
-            this.setState({fireRedirect: true})
-        });
+        if (this.onCheckPhoneNumber(user.phone)) {
+            axios.post(`http://localhost:5000/api/users`, {user})
+            .then(res => {
+                this.setState({fireRedirect: true})
+            });
+        } else {
+            console.log("Phone number is incorrect");
+        }
         event.preventDefault();
     }
+
     render() {
         const from = this.props.location.state || '/users'
         const { fireRedirect } = this.state;

@@ -66,7 +66,7 @@ router.post('/', function (req, res) {
       knex('users').insert({
         name: reqData.name,
         phone: reqData.phone,
-        birthday: reqData.birthday
+        birthday: new Date(reqData.birthday)
       }).then((user) => {
         res.status(200).send({
           status: 'Success',
@@ -99,7 +99,7 @@ router.put('/:id', (req, res) => {
     knex('users').update({
       name: reqData.name,
       phone: reqData.phone,
-      birthday: reqData.birthday
+      birthday: new Date(reqData.birthday)
     }).where({id: row.id}).then( () =>{
       return  res.status(200).send({
         status: 'Success',
